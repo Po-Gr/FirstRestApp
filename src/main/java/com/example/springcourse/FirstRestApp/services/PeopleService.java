@@ -2,6 +2,7 @@ package com.example.springcourse.FirstRestApp.services;
 
 import com.example.springcourse.FirstRestApp.models.Person;
 import com.example.springcourse.FirstRestApp.repositories.PeopleRepository;
+import com.example.springcourse.FirstRestApp.util.PersonNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,12 +20,12 @@ public class PeopleService {
         this.peopleRepository = peopleRepository;
     }
 
-    public List<Person> fingAll() {
+    public List<Person> findAll() {
         return peopleRepository.findAll();
     }
 
     public Person findOne(int id) {
         Optional<Person> foundPerson = peopleRepository.findById(id);
-        return foundPerson.orElse(null);
+        return foundPerson.orElseThrow(PersonNotFoundException::new);
     }
 }
